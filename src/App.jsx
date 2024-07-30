@@ -2,9 +2,6 @@ import { useState } from "react";
 
 let player = 0;
 
-function checkWin() {
-  console.log("i cant check who win");
-}
 function Square() {
   const [value, setValue] = useState(null);
 
@@ -19,6 +16,7 @@ function Square() {
     </button>
   );
 }
+
 export default function Board() {
   return (
     <>
@@ -39,4 +37,8 @@ export default function Board() {
       </div>
     </>
   );
+}
+
+function checkWin() {
+  console.log("i cant check who win");
 }

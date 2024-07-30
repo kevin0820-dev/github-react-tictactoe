@@ -1,20 +1,41 @@
+import { useState } from "react";
+
+let player = 0;
+
+function checkWin() {
+  console.log("i cant check who win");
+}
+function Square() {
+  const [value, setValue] = useState(null);
+
+  function handleClick() {
+    player % 2 == 0 ? setValue("x") : setValue("o");
+    checkWin();
+    player++;
+  }
+  return (
+    <button className="square" onClick={handleClick}>
+      {value}
+    </button>
+  );
+}
 export default function Board() {
   return (
     <>
       <div className="board-row">
-        <button className="square">1</button>
-        <button className="square">2</button>
-        <button className="square">3</button>
+        <Square value="x" />
+        <Square value="x" />
+        <Square value="x" />
       </div>
       <div className="board-row">
-        <button className="square">4</button>
-        <button className="square">5</button>
-        <button className="square">6</button>
+        <Square />
+        <Square />
+        <Square />
       </div>
       <div className="board-row">
-        <button className="square">7</button>
-        <button className="square">8</button>
-        <button className="square">9</button>
+        <Square />
+        <Square />
+        <Square />
       </div>
     </>
   );

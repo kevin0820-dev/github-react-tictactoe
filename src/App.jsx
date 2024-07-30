@@ -11,24 +11,69 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-export default function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
+export default function Game() {
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const currentSquares = history[currentMove];
 
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+    player = nextMove;
+  }
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = "Go to move #" + move;
+    } else {
+      description = "Go to game start";
+    }
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol>{moves}</ol>
+      </div>
+    </div>
+  );
+}
+
+function Board({ squares, onPlay }) {
   function handleClick(i) {
     if (squares[i] || winner) return;
     const nextSquares = squares.slice();
     nextSquares[i] = player % 2 == 0 ? "X" : "O";
-    setSquares(nextSquares);
     player++;
+    onPlay(nextSquares);
   }
 
   winner = checkWinner(squares);
   if (winner) state = "The winner is " + winner;
   else state = "The next player is " + (player % 2 == 0 ? "X" : "O");
 
+  function jumpTo(index) {
+    squares = history[index - 1];
+    player = index;
+  }
+
   return (
     <>
-      <div className="state">{state}</div>
+      <div className="status">{state}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />

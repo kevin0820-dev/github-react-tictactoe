@@ -3,6 +3,7 @@ import { useState } from "react";
 let player = 0;
 let winner = null;
 let state = "Next Player is X";
+
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
@@ -65,11 +66,6 @@ function Board({ squares, onPlay }) {
   winner = checkWinner(squares);
   if (winner) state = "The winner is " + winner;
   else state = "The next player is " + (player % 2 == 0 ? "X" : "O");
-
-  function jumpTo(index) {
-    squares = history[index - 1];
-    player = index;
-  }
 
   return (
     <>
